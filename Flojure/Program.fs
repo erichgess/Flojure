@@ -12,11 +12,17 @@ let rec ConvertToClojure expr =
             ConvertToClojure e
         printf " )"
     | Value(v,ty) -> printf " %A " v
+    | Let(var, definition, useIn) ->
+        printf "( def %s " var.Name
+        ConvertToClojure definition
+        printf " )\n"
+        ConvertToClojure useIn
+    | Var(v) -> printf " %s " v.Name
     | _ -> printf "unknown"
 
 [<EntryPoint>]
 let main argv = 
-    let test = <@ 2 + 2 * 3 @>
+    let test = <@ let x = 2 + 2 * 3 in x + 2 @>
     ConvertToClojure test
     printfn "\n\ndone"
     0 // return an integer exit code
