@@ -13,16 +13,28 @@ let rec ConvertToClojure expr =
         printf " )"
     | Value(v,ty) -> printf " %A " v
     | Let(var, definition, useIn) ->
-        printf "( def %s " var.Name
-        ConvertToClojure definition
-        printf " )\n"
+        match definition with
+        | Lambda(var1, e) ->
+            printf "( defn %s " var.Name
+            printf "[%s] " var1.Name
+            ConvertToClojure e
+            printf ")\n"
+        | _ -> 
+            printf "( def %s " var.Name
+            ConvertToClojure definition
+            printf " )\n"
         ConvertToClojure useIn
+    | Application(name, expr) -> 
+        printf "( "
+        ConvertToClojure name
+        ConvertToClojure expr
+        printf ") "
     | Var(v) -> printf " %s " v.Name
     | _ -> printf "unknown"
 
 [<EntryPoint>]
 let main argv = 
-    let test = <@ let x = 2 + 2 * 3 in x + 2 @>
+    let test = <@ let x y = y + 2 * 3 in x 1 + 2 @>
     ConvertToClojure test
     printfn "\n\ndone"
     0 // return an integer exit code
