@@ -29,12 +29,17 @@ let rec ConvertToClojure expr =
         ConvertToClojure name
         ConvertToClojure expr
         printf ") "
+    | Lambda(var1, e) ->
+        printf "( fn "
+        printf "[%s] " var1.Name
+        ConvertToClojure e
+        printf ")\n"
     | Var(v) -> printf " %s " v.Name
     | _ -> printf "unknown"
 
 [<EntryPoint>]
 let main argv = 
-    let test = <@ let x y = y + 2 * 3 in x 1 + 2 @>
+    let test = <@ let x y z = y + z * 3 in x 1 2 + 2 @>
     ConvertToClojure test
     printfn "\n\ndone"
     0 // return an integer exit code
