@@ -13,16 +13,9 @@ let rec ConvertToClojure expr =
         printf " )"
     | Value(v,ty) -> printf " %A " v
     | Let(var, definition, useIn) ->
-        match definition with
-        | Lambda(var1, e) ->
-            printf "( defn %s " var.Name
-            printf "[%s] " var1.Name
-            ConvertToClojure e
-            printf ")\n"
-        | _ -> 
-            printf "( def %s " var.Name
-            ConvertToClojure definition
-            printf " )\n"
+        printf "( def %s " var.Name
+        ConvertToClojure definition
+        printf " )\n"
         ConvertToClojure useIn
     | Application(name, expr) -> 
         printf "( "
@@ -33,7 +26,7 @@ let rec ConvertToClojure expr =
         printf "( fn "
         printf "[%s] " var1.Name
         ConvertToClojure e
-        printf ")\n"
+        printf ")"
     | Var(v) -> printf " %s " v.Name
     | _ -> printf "unknown"
 
