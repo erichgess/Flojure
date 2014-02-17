@@ -17,9 +17,9 @@ let rec ConvertToClojure expr =
         ConvertToClojure definition
         printf " )\n"
         ConvertToClojure useIn
-    | Application(name, expr) -> 
+    | Application(func, expr) -> 
         printf "( "
-        ConvertToClojure name
+        ConvertToClojure func
         ConvertToClojure expr
         printf ") "
     | Lambda(var1, e) ->
@@ -32,7 +32,7 @@ let rec ConvertToClojure expr =
 
 [<EntryPoint>]
 let main argv = 
-    let test = <@ let x y z = y + z * 3 in x 1 2 + 2 @>
+    let test = <@ let x y z = y + z * 3 in let q = 3 in x 1 q + 2 @>
     ConvertToClojure test
     printfn "\n\ndone"
     0 // return an integer exit code
