@@ -66,5 +66,8 @@ let main argv =
     let test = <@ if 1 = 1 then 1 else 2 @>
     ConvertToClojure test
 
+    let test = <@ let f x = x / 2 in let q = 2 in if f q = 1 then 1 else 2 @>
+    ConvertToClojure test
+
     printfn "\n\n"
     0 // return an integer exit code
