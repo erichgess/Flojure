@@ -45,11 +45,10 @@ let ConvertToClojure expr =
             | _ -> failwithf "Unrecognized UnionCase info type %A" info.Name
             printf ") "
         | ForIntegerRangeLoop( var, start, finish, body ) ->
-            printf  "(for (%s " var.Name
-            printf "( range "
+            printf  "(for [%s ( range " var.Name
             ConvertToClojure start
             ConvertToClojure (<@ %%finish + 1 @>)
-            printf ") "
+            printf ")] "
             ConvertToClojure body
             printf ") "
         | _ -> printf "unknown"
@@ -88,6 +87,9 @@ let main argv =
     /// for i = start to finish do => ForIntegerRangeLoop( var, start, finish, expr )
     ///         In Clojure ForIntegerRangeLoop( var, start, finish, expr ) would translate to => (for [var (range start finish) ] (expr) )
     let test = <@ for i = 1 to 10 do printfn "test" @>
+    ConvertToClojure test
+
+    let test = <@ let finish = 10 in for i = 1 to (finish + 3) do printfn "test" @>
     ConvertToClojure test
 
     /// for i = start downtofinish do => Quotations cannot contain descending for loops
