@@ -28,6 +28,15 @@ let rec ConvertToClojure expr =
         ConvertToClojure e
         printf ")"
     | Var(v) -> printf " %s " v.Name
+    | NewUnionCase(info, expr ) ->
+        printf "( "
+        match info.Name with
+        | "Cons" -> 
+            printf "cons "
+            expr |> List.iter ( fun e -> ConvertToClojure e )
+        | "Empty" -> printf "list"
+        | _ -> failwithf "Unrecognized UnionCase info type %A" info.Name
+        printf ") "
     | _ -> printf "unknown"
 
 [<EntryPoint>]
@@ -35,4 +44,11 @@ let main argv =
     let test = <@ let x y z = y + z * 3 in let q = 3 in x 1 q + 2 @>
     ConvertToClojure test
     printfn "\n\ndone"
+
+    printfn "\n\nTest Lists"
+    let test = <@ [1; 2; 3] @>
+    ConvertToClojure test
+    
+
+    printfn "\n\n"
     0 // return an integer exit code
