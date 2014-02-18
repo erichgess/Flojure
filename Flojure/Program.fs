@@ -10,7 +10,7 @@ let rec ConvertToClojure expr =
         printf "( %s " m.Name
         for e in ps do
             ConvertToClojure e
-        printf " )"
+        printf ") "
     | Value(v,ty) -> printf " %A " v
     | Let(var, definition, useIn) ->
         printf "( def %s " var.Name
@@ -26,7 +26,7 @@ let rec ConvertToClojure expr =
         printf "( fn "
         printf "[%s] " var1.Name
         ConvertToClojure e
-        printf ")"
+        printf ") "
     | Var(v) -> printf " %s " v.Name
     | NewUnionCase(info, expr ) ->
         printf "( "
@@ -46,7 +46,7 @@ let main argv =
     printfn "\n\ndone"
 
     printfn "\n\nTest Lists"
-    let test = <@ [1; 2; 3] @>
+    let test = <@ [1; 2; 3 + 3] @>
     ConvertToClojure test
     
 
