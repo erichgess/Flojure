@@ -48,7 +48,7 @@ let ConvertToClojure expr =
             printf  "(for (%s " var.Name
             printf "( range "
             ConvertToClojure start
-            ConvertToClojure finish
+            ConvertToClojure (<@ %%finish + 1 @>)
             printf ") "
             ConvertToClojure body
             printf ") "
