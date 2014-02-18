@@ -29,6 +29,12 @@ let ConvertToClojure expr =
             ConvertToClojure e
             printf ") "
         | Var(v) -> printf " %s " v.Name
+        | IfThenElse(clause, thenExpr, elseExpr ) ->
+            printf "(if "
+            ConvertToClojure clause
+            ConvertToClojure thenExpr
+            ConvertToClojure elseExpr
+            printf ") "
         | NewUnionCase(info, expr ) ->
             printf "( "
             match info.Name with
@@ -40,7 +46,7 @@ let ConvertToClojure expr =
             printf ") "
         | _ -> printf "unknown"
     ConvertToClojure expr
-    printfn "\n"
+    printfn "\n\n"
 
 [<EntryPoint>]
 let main argv = 
@@ -54,6 +60,10 @@ let main argv =
     
 
     let test = <@ let x y z = y + z * 3 in let q = 3 in [1; 2; x 3 3; 5; 6; q] @>
+    ConvertToClojure test
+
+
+    let test = <@ if 1 = 1 then 1 else 2 @>
     ConvertToClojure test
 
     printfn "\n\n"
