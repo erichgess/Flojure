@@ -40,6 +40,12 @@ let main argv =
     let test = <@ let finish = 10 in for i = 1 to (finish + 3) do printfn "test" @>
     ConvertToClojure test
 
+    let test = <@ let start = 1 in for i = (start - 1) to 10 do printfn "test" @>
+    ConvertToClojure test
+
+    let test = <@ let start = 1 in let finish = 9 in for i = (start - 1) to (finish + 1) do printfn "test" @>
+    ConvertToClojure test
+
     /// for i = start downtofinish do => Quotations cannot contain descending for loops
     /// for i in start..inc..finish do => this actually becomes a whileLoop with some wrappers to create the sequence
     /// for i in [list] do

@@ -9,7 +9,7 @@ open ConvertToClojure
 type ``Given a a for loop on an integer range`` () =
     
     [<Test>] member this.
-     ``when using "for i in 1 .. 2 do", it returns a Clojure for`` () =
+     ``when using "for i in 1 .. 10 do", it returns a Clojure for`` () =
         ConvertToClojure <@ for i = 1 to 10 do printfn "test" @> 
         |> should equal "(for [i ( range  1 ( op_Addition  10  1 ) )] ( PrintFormatLine unknown) )"
 
