@@ -44,6 +44,14 @@ let ConvertToClojure expr =
             | "Empty" -> printf "list"
             | _ -> failwithf "Unrecognized UnionCase info type %A" info.Name
             printf ") "
+        | ForIntegerRangeLoop( var, start, finish, body ) ->
+            printf  "(for (%s " var.Name
+            printf "( range "
+            ConvertToClojure start
+            ConvertToClojure finish
+            printf ") "
+            ConvertToClojure body
+            printf ") "
         | _ -> printf "unknown"
     ConvertToClojure expr
     printfn "\n\n"
@@ -74,6 +82,18 @@ let main argv =
 
     let test = <@ let f x = x / 2 in let q = 2 in if f q = 3 then 1 elif q = 1 then 2 else 3 @>
     ConvertToClojure test
+
+    /// For Loop Tests: 
+    /// for i in start..finish do => ForIntegerRangeLoop( var, start, finish, expr )
+    /// for i = start to finish do => ForIntegerRangeLoop( var, start, finish, expr )
+    ///         In Clojure ForIntegerRangeLoop( var, start, finish, expr ) would translate to => (for [var (range start finish) ] (expr) )
+    let test = <@ for i = 1 to 10 do printfn "test" @>
+    ConvertToClojure test
+
+    /// for i = start downtofinish do => Quotations cannot contain descending for loops
+    /// for i in start..inc..finish do => this actually becomes a whileLoop with some wrappers to create the sequence
+    /// for i in [list] do
+    /// for i in 
 
     printfn "\n\n"
     0 // return an integer exit code
