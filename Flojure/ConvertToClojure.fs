@@ -11,12 +11,14 @@ let PrintFormat methodName expr =
         match expr with
         | NewObject(ty, [Value(v,vty)]) ->
             sprintf "%s %A" ioMethod v
+        | _ -> failwithf "Does not yet support: %A" expr
     | _ -> failwith "Unexpected expression in print statement"
 
 let ConvertToClojure expr =
     let rec ConvertToClojure expr =
         let convertExpressionListToStringList exprList =
-            (exprList |> List.map ( fun e -> " " :: ConvertToClojure e ) |> List.fold ( fun acc sl -> acc @ sl ) [] ) 
+            (exprList |> List.map ( fun e -> " " :: ConvertToClojure e ) |> List.fold ( fun acc sl -> acc @ sl ) [] )
+
         let clojure =
             match expr with
             | Call(o, m, ps ) ->
