@@ -16,9 +16,13 @@ let ConvertToClojure expr =
     let rec ConvertToClojure expr =
         match expr with
         | Call(o, m, ps ) ->
-            printf "( %s " (if m.Name = "PrintFormat" then PrintFormat ps else m.Name)
-            for e in ps do
-                ConvertToClojure e
+            printf "( "
+            if m.Name = "PrintFormat" then
+                printf "%s" (PrintFormat ps)
+            else
+                printf "%s" m.Name
+                for e in ps do
+                    ConvertToClojure e
             printf ") "
         | Value(v,ty) -> printf " %A " v
         | Let(var, definition, useIn) ->
