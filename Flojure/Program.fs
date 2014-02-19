@@ -57,5 +57,10 @@ let main argv =
     /// for i in start..inc..finish do => this actually becomes a whileLoop with some wrappers to create the sequence
     /// for i in [list] do
 
+    /// While loop
+    /// always true
+    let test = <@ while true do printf "Hello" @>
+    ConvertToClojure test
+
     printfn "\n\n"
     0 // return an integer exit code

@@ -55,10 +55,10 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ForIntegerRangeLoop.fs" />
-    <Compile Include="Program.fs" />
+    <Compile Include="WhileLoop.fs" />
     <None Include="App.config" />
     <None Include="packages.config" />
+    <Compile Include="ForIntegerRangeLoop.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flojure\Flojure.fsproj">

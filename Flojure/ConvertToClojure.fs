@@ -3,11 +3,20 @@
 open Microsoft.FSharp.Quotations
 open Microsoft.FSharp.Quotations.Patterns
 
+let PrintFormat expr =
+    let h = expr |> List.head
+    match h with
+    | Coerce(expr, ty) ->
+        match expr with
+        | NewObject(ty, [Value(v,vty)]) ->
+            sprintf "print %A" v
+    | _ -> failwith "Unexpected expression in print statement"
+
 let ConvertToClojure expr =
     let rec ConvertToClojure expr =
         match expr with
         | Call(o, m, ps ) ->
-            printf "( %s " m.Name
+            printf "( %s " (if m.Name = "PrintFormat" then PrintFormat ps else m.Name)
             for e in ps do
                 ConvertToClojure e
             printf ") "
@@ -50,6 +59,15 @@ let ConvertToClojure expr =
             printf ")] "
             ConvertToClojure body
             printf ") "
-        | _ -> printf "unknown"
+        | WhileLoop( clause, body ) -> 
+            printf "(loop [] (if "
+            printf "(not " 
+            ConvertToClojure clause
+            printf ") "
+            printf "() "
+            printf "(do "
+            ConvertToClojure body
+            printf " (recur))))"
+        | _ -> printf "<<unknown: %A>>" expr
     ConvertToClojure expr
     printfn "\n\n"
