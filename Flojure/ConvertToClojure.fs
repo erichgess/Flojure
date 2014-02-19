@@ -17,15 +17,13 @@ let ConvertToClojure expr =
     let rec ConvertToClojure expr =
         match expr with
         | Call(o, m, ps ) ->
-            printf "( "
-            if m.Name = "PrintFormat" || m.Name = "PrintFormatLine" then
-                printf "%s" (PrintFormat m.Name ps)
-            else
-                printf "%s" m.Name
-                for e in ps do
-                    ConvertToClojure e
-            printf ") "
-        | Value(v,ty) -> printf " %A " v
+             "( " ::
+             if m.Name = "PrintFormat" || m.Name = "PrintFormatLine" then
+                 (PrintFormat m.Name ps)
+             else
+                 m.Name :: (ps |> List.map ( fun e -> ConvertToClojure e )
+             :: ") " :: []
+        | Value(v,ty) -> (sprintf " %A " v) ::[]
         | Let(var, definition, useIn) ->
             printf "( def %s " var.Name
             ConvertToClojure definition
