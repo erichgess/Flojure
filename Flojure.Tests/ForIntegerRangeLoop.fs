@@ -6,7 +6,7 @@ open ConvertToClojure
 
 
 [<TestFixture>] 
-type ``Given a a for loop on an integer range`` () =
+type ``Given a for loop on an integer range`` () =
     
     [<Test>] member this.
      ``when using "for i = 1 to 10 do", it returns a Clojure for`` () =
