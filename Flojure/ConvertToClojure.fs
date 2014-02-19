@@ -3,13 +3,14 @@
 open Microsoft.FSharp.Quotations
 open Microsoft.FSharp.Quotations.Patterns
 
-let PrintFormat expr =
+let PrintFormat methodName expr =
     let h = expr |> List.head
+    let ioMethod = if methodName = "PrintFormat" then "print" elif methodName = "PrintFormatLine" then "println" else "<<unknown>>"
     match h with
     | Coerce(expr, ty) ->
         match expr with
         | NewObject(ty, [Value(v,vty)]) ->
-            sprintf "print %A" v
+            sprintf "%s %A" ioMethod v
     | _ -> failwith "Unexpected expression in print statement"
 
 let ConvertToClojure expr =
@@ -17,8 +18,8 @@ let ConvertToClojure expr =
         match expr with
         | Call(o, m, ps ) ->
             printf "( "
-            if m.Name = "PrintFormat" then
-                printf "%s" (PrintFormat ps)
+            if m.Name = "PrintFormat" || m.Name = "PrintFormatLine" then
+                printf "%s" (PrintFormat m.Name ps)
             else
                 printf "%s" m.Name
                 for e in ps do

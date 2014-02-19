@@ -64,5 +64,7 @@ let main argv =
 
     ConvertToClojure <@  printf "Hello" @>
 
+    ConvertToClojure <@  printfn "Hello" @>
+
     printfn "\n\n"
     0 // return an integer exit code
