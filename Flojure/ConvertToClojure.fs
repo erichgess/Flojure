@@ -15,6 +15,8 @@ let PrintFormat methodName expr =
     | _ -> failwith "Unexpected expression in print statement"
 
 let ConvertToClojure expr =
+    /// This recursive function will build a list of Clojure language tokens, 
+    /// which can then be easily converted to a single string of Clojure Code
     let rec ConvertToClojure expr =
         let convertExpressionListToStringList exprList =
             (exprList |> List.map ( fun e -> " " :: ConvertToClojure e ) |> List.fold ( fun acc sl -> acc @ sl ) [] )
@@ -67,6 +69,12 @@ let ConvertToClojure expr =
                 @ ")] " :: []
                 @ ConvertToClojure body
                 @ ")" :: []
+            | WhileLoop( clause, body ) -> 
+                "(loop [] (if (not " :: []
+                @ ConvertToClojure clause
+                @ ") () (do " 
+                :: ConvertToClojure body
+               @ " (recur))))" :: []
             | _ -> (sprintf "<<unknown: %A>>" expr) :: []
         clojure
-    ConvertToClojure expr |> List.fold ( fun acc s -> acc + s ) ""
+    ConvertToClojure expr |> List.fold ( fun acc s -> acc + s ) ""      // Convert the list of Clojure tokens into a single string
