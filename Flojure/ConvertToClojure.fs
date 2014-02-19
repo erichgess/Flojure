@@ -41,6 +41,12 @@ let ConvertToClojure expr =
                 @ ConvertToClojure e
                 @ ") " :: []
             | Var(v) -> v.Name :: []
+            | IfThenElse(clause, thenExpr, elseExpr ) ->
+                "(if " :: []
+                @ ConvertToClojure clause
+                @ ConvertToClojure thenExpr
+                @ " " :: ConvertToClojure elseExpr
+                @  ") " :: []
             | _ -> (sprintf "<<unknown: %A>>" expr) :: []
         clojure
     ConvertToClojure expr |> List.fold ( fun acc s -> acc + s ) ""

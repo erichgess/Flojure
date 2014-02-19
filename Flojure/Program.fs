@@ -24,8 +24,8 @@ let main argv =
 //    ConvertToClojure test
 //
 //
-//    let test = <@ if 1 = 1 then 1 else 2 @>
-//    ConvertToClojure test
+    let test = <@ if 1 = 1 then 1 else 2 @>
+    ConvertToClojure test |> printf "%s\n"
 //
 //    let test = <@ let f x = x / 2 in let q = 2 in if 1 = 1 then 1 else 2 @>
 //    ConvertToClojure test
