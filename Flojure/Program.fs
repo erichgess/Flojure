@@ -49,10 +49,13 @@ let main argv =
     let test = <@ let start = 1 in let finish = 9 in for i = ( if start = 1 then 0 else 1) to (finish + 1) do printfn "test" @>
     ConvertToClojure test
 
+    
+    let test = <@ for i in 1 .. 10 do printfn "test" @>
+    ConvertToClojure test
+
     /// for i = start downtofinish do => Quotations cannot contain descending for loops
     /// for i in start..inc..finish do => this actually becomes a whileLoop with some wrappers to create the sequence
     /// for i in [list] do
-    /// for i in 
 
     printfn "\n\n"
     0 // return an integer exit code
