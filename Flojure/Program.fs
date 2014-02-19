@@ -43,8 +43,8 @@ let main argv =
 //    /// for i in start..finish do => ForIntegerRangeLoop( var, start, finish, expr )
 //    /// for i = start to finish do => ForIntegerRangeLoop( var, start, finish, expr )
 //    ///         In Clojure ForIntegerRangeLoop( var, start, finish, expr ) would translate to => (for [var (range start finish) ] (expr) )
-//    let test = <@ for i = 1 to 10 do printfn "test" @>
-//    ConvertToClojure test |> printf "%s\n"
+    let test = <@ for i = 1 to 10 do printfn "test" @>
+    ConvertToClojure test |> printf "%s\n"
 //
 //    let test = <@ let finish = 10 in for i = 1 to (finish + 3) do printfn "test" @>
 //    ConvertToClojure test |> printf "%s\n"
@@ -57,6 +57,9 @@ let main argv =
 //
 //    let test = <@ let start = 1 in let finish = 9 in for i = ( if start = 1 then 0 else 1) to (finish + 1) do printfn "test" @>
 //    ConvertToClojure test |> printf "%s\n"
+
+    ConvertToClojure <@ let start = 1 in let finish = 9 in for i = ( if start = 1 then 0 else 1) to (finish + 1) do printfn "test" @>
+    |> printf "%s\n"
 //
 //    
 //    let test = <@ for i in 1 .. 10 do printfn "test" @>

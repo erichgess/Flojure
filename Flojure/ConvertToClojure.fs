@@ -20,21 +20,21 @@ let ConvertToClojure expr =
         let clojure =
             match expr with
             | Call(o, m, ps ) ->
-                 "( " ::
+                 "(" ::
                  if m.Name = "PrintFormat" || m.Name = "PrintFormatLine" then
                      (PrintFormat m.Name ps) :: []
                  else
                      let parametersInClojure = convertExpressionListToStringList ps
                      m.Name :: parametersInClojure
-                 @ ( ") " :: [])
+                 @ ( ")" :: [])
             | Value(v,ty) -> (sprintf "%A" v) ::[]
             | Let(var, definition, useIn) ->
-                "( def " :: var.Name :: " " :: [] 
+                "(def " :: var.Name :: " " :: [] 
                 @ (ConvertToClojure definition) 
-                @ " )\n" :: [] 
+                @ ")\n" :: [] 
                 @ ConvertToClojure useIn
             | Application(func, expr) -> 
-                "( " :: []
+                "(" :: []
                 @ ConvertToClojure func
                 @ " " :: ConvertToClojure expr
                 @ ") " :: []
@@ -46,9 +46,9 @@ let ConvertToClojure expr =
             | IfThenElse(clause, thenExpr, elseExpr ) ->
                 "(if " :: []
                 @ ConvertToClojure clause
-                @ ConvertToClojure thenExpr
+                @ " " :: ConvertToClojure thenExpr
                 @ " " :: ConvertToClojure elseExpr
-                @  ") " :: []
+                @  ")" :: []
             | NewUnionCase(info, expr ) ->
                 "( " :: []
                 @ match info.Name with
@@ -58,6 +58,13 @@ let ConvertToClojure expr =
                   | "Empty" -> "list" :: []
                   | _ -> failwithf "Unrecognized UnionCase info type %A" info.Name
                 @ ") " :: []
+            | ForIntegerRangeLoop( var, start, finish, body ) ->
+                "(for " :: "[" :: var.Name :: " (range " :: []
+                @ ConvertToClojure start
+                @ " " :: ConvertToClojure (<@ %%finish + 1 @>)
+                @ ")] " :: []
+                @ ConvertToClojure body
+                @ ")" :: []
             | _ -> (sprintf "<<unknown: %A>>" expr) :: []
         clojure
     ConvertToClojure expr |> List.fold ( fun acc s -> acc + s ) ""
