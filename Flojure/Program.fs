@@ -11,8 +11,8 @@ let main argv =
     let test = <@ let x = 2 in x + 2 @>
     printf "%s\n" (ConvertToClojure test)
 
-//    let test = <@ let x y z = y + z * 3 in let q = 3 in x 1 q + 2 @>
-//    ConvertToClojure test |> printf "%s\n"
+    let test = <@ let x y z = y + z * 3 in let q = 3 in x 1 q + 2 @>
+    ConvertToClojure test |> printf "%s\n"
 //    printfn "\n\ndone"
 //
 //    printfn "\n\nTest Lists"
