@@ -15,6 +15,8 @@ let PrintFormat methodName expr =
 
 let ConvertToClojure expr =
     let rec ConvertToClojure expr =
+        let convertExpressionListToStringList exprList =
+            (exprList |> List.map ( fun e -> " " :: ConvertToClojure e ) |> List.fold ( fun acc sl -> acc @ sl ) [] ) 
         let clojure =
             match expr with
             | Call(o, m, ps ) ->
@@ -22,7 +24,7 @@ let ConvertToClojure expr =
                  if m.Name = "PrintFormat" || m.Name = "PrintFormatLine" then
                      (PrintFormat m.Name ps) :: []
                  else
-                     let parametersInClojure = (ps |> List.map ( fun e -> " " :: ConvertToClojure e ) |> List.fold ( fun acc sl -> acc @ sl ) [] ) 
+                     let parametersInClojure = convertExpressionListToStringList ps
                      m.Name :: parametersInClojure
                  @ ( ") " :: [])
             | Value(v,ty) -> (sprintf "%A" v) ::[]
@@ -47,6 +49,15 @@ let ConvertToClojure expr =
                 @ ConvertToClojure thenExpr
                 @ " " :: ConvertToClojure elseExpr
                 @  ") " :: []
+            | NewUnionCase(info, expr ) ->
+                "( " :: []
+                @ match info.Name with
+                  | "Cons" -> 
+                      printf "cons "
+                      expr |> convertExpressionListToStringList
+                  | "Empty" -> "list" :: []
+                  | _ -> failwithf "Unrecognized UnionCase info type %A" info.Name
+                @ ") " :: []
             | _ -> (sprintf "<<unknown: %A>>" expr) :: []
         clojure
     ConvertToClojure expr |> List.fold ( fun acc s -> acc + s ) ""
