@@ -62,5 +62,7 @@ let main argv =
     let test = <@ while true do printf "Hello" @>
     ConvertToClojure test
 
+    ConvertToClojure <@  printf "Hello" @>
+
     printfn "\n\n"
     0 // return an integer exit code

@@ -55,6 +55,7 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StandardIO.fs" />
     <Compile Include="WhileLoop.fs" />
     <None Include="App.config" />
     <None Include="packages.config" />
