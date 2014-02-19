@@ -16,7 +16,7 @@ F# Code
     
 Outputs
 
-    "(for [i ( range  1 ( +  10  1 ) )] ( println "test") )"
+    (for [i ( range  1 ( +  10  1 ) )] ( println "test") )
     
     
 #### A more complex example
@@ -26,4 +26,6 @@ F# Code
     
 Outputs
 
-    "( def start  1  )\n( def finish  9  )\n(for [i ( range (if ( =  start  1 )  0  1 ) ( + ( +  finish  1 )  1 ) )] ( println "test") )"
+    ( def start  1  )
+    ( def finish  9  )
+    (for [i ( range (if ( =  start  1 )  0  1 ) ( + ( +  finish  1 )  1 ) )] ( println "test") )"
