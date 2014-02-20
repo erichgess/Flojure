@@ -16,4 +16,4 @@ type ``Given a a while loop`` () =
     [<Test>] member this.
      ``when using 1=1 for the clause`` () =
         ConvertToClojure <@ while 1=1 do printf "Hello" @> 
-        |> should equal """(loop [] (if (not (op_Equality 1 1)) () (do (print "Hello") (recur))))"""
+        |> should equal """(loop [] (if (not (= 1 1)) () (do (print "Hello") (recur))))"""

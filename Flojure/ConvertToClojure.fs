@@ -14,6 +14,14 @@ let PrintFormat methodName expr =
         | _ -> failwithf "Does not yet support: %A" expr
     | _ -> failwith "Unexpected expression in print statement"
 
+let ConvertSharedFunctions name =
+    match name with
+    | "op_Addition" -> "+"
+    | "op_Multiply" -> "*"
+    | "op_Subtraction" -> "-"
+    | "op_Equality" -> "="
+    | _ -> name
+
 let ConvertToClojure expr =
     /// This recursive function will build a list of Clojure language tokens, 
     /// which can then be easily converted to a single string of Clojure Code
@@ -29,7 +37,7 @@ let ConvertToClojure expr =
                      (PrintFormat m.Name ps) :: []
                  else
                      let parametersInClojure = convertExpressionListToStringList ps
-                     m.Name :: parametersInClojure
+                     ConvertSharedFunctions m.Name :: parametersInClojure
                  @ ( ")" :: [])
             | Value(v,ty) -> (sprintf "%A" v) ::[]
             | Let(var, definition, useIn) ->
