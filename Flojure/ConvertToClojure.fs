@@ -54,14 +54,14 @@ let ConvertToClojure expr =
                 @ " " :: ConvertToClojure elseExpr
                 @  ")" :: []
             | NewUnionCase(info, expr ) ->
-                "( " :: []
+                "(" :: []
                 @ match info.Name with
                   | "Cons" -> 
-                      printf "cons "
-                      expr |> convertExpressionListToStringList
+                      "cons" ::
+                      (expr |> convertExpressionListToStringList)
                   | "Empty" -> "list" :: []
                   | _ -> failwithf "Unrecognized UnionCase info type %A" info.Name
-                @ ") " :: []
+                @ ")" :: []
             | ForIntegerRangeLoop( var, start, finish, body ) ->
                 "(for " :: "[" :: var.Name :: " (range " :: []
                 @ ConvertToClojure start

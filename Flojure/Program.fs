@@ -23,8 +23,8 @@ let main argv =
     ConvertToClojure test |> printf "%s\n"
 //    
 //
-//    let test = <@ let x y z = y + z * 3 in let q = 3 in [1; 2; x 3 3; 5; 6; q] @>
-//    ConvertToClojure test |> printf "%s\n"
+    let test = <@ let x y z = y + z * 3 in let q = 3 in [1; 2; x 3 3; 5; 6; q] @>
+    ConvertToClojure test |> printf "%s\n"
 //
 //
     let test = <@ if 1 = 1 then 1 else 2 @>
@@ -77,6 +77,13 @@ let main argv =
 //    ConvertToClojure <@  printf "Hello" @> |> printf "%s\n"
 //
 //    ConvertToClojure <@  printfn "Hello" @> |> printf "%s\n"
+
+    printfn "\nA Complex Example"
+    let test = <@ let f x = x * x in 
+                  let g y z = y + z * 3 in 
+                  let q = 3 in 
+                  [1; 2; g (f 3) 3; 5; 6; q] @>
+    ConvertToClojure test |> printf "%s\n"
 
     printfn "\n\n"
     0 // return an integer exit code
