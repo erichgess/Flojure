@@ -29,3 +29,19 @@ Outputs
     ( def start  1  )
     ( def finish  9  )
     (for [i ( range (if ( =  start  1 )  0  1 ) ( + ( +  finish  1 )  1 ) )] ( println "test") )"
+
+
+#### Functions, currying, and lists
+F# Code
+
+    let test = <@ let f x = x * x in 
+                  let g y z = y + z * 3 in 
+                  let q = 3 in 
+                  [1; 2; g (f 3) 3; 5; 6; q] @>
+
+Outputs
+
+    (def f ( fn [x] (* x x)) )
+    (def g ( fn [y] ( fn [z] (+ y (* z 3))) ) )
+    (def q 3)
+    (cons 1 (cons 2 (cons ((g (f 3) )  3)  (cons 5 (cons 6 (cons q (list)))))))
