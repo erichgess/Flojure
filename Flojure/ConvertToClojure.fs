@@ -5,7 +5,7 @@ open Microsoft.FSharp.Quotations.Patterns
 
 let PrintFormat methodName expr =
     let h = expr |> List.head
-    let ioMethod = if methodName = "PrintFormat" then "print" elif methodName = "PrintFormatLine" then "println" else "<<unknown>>"
+    let ioMethod =  if methodName = "PrintFormat" then "print" elif methodName = "PrintFormatLine" then "println" else "<<unknown>>"
     match h with
     | Coerce(expr, ty) ->
         match expr with
@@ -28,7 +28,7 @@ let ConvertSharedFunctions name =
     | "op_GreaterThan" -> ">"
     | "op_GreaterThanOrEqual" -> ">="
     | _ -> name
-
+    
 let ConvertToClojure expr =
     /// This recursive function will build a list of Clojure language tokens, 
     /// which can then be easily converted to a single string of Clojure Code
@@ -90,6 +90,9 @@ let ConvertToClojure expr =
                 @ ") () (do " 
                 :: ConvertToClojure body
                @ " (recur))))" :: []
+            | NewArray(ty, values) ->
+                "[" :: (values |> convertExpressionListToStringList )
+                @ "]" :: []
             | _ -> (sprintf "<<unknown: %A>>" expr) :: []
         clojure
     ConvertToClojure expr |> List.fold ( fun acc s -> acc + s ) ""      // Convert the list of Clojure tokens into a single string
