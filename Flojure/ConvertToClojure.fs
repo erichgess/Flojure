@@ -22,6 +22,7 @@ let ConvertSharedFunctions name =
     | "op_Division" -> "/"
     | "op_Modulus" -> "mod"
     | "op_Equality" -> "="
+    | "op_Inequality" -> "not="
     | "op_LessThan" -> "<"
     | "op_LessThanOrEqual" -> "<="
     | "op_GreaterThan" -> ">"
