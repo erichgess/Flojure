@@ -19,7 +19,13 @@ let ConvertSharedFunctions name =
     | "op_Addition" -> "+"
     | "op_Multiply" -> "*"
     | "op_Subtraction" -> "-"
+    | "op_Division" -> "/"
+    | "op_Modulus" -> "mod"
     | "op_Equality" -> "="
+    | "op_LessThan" -> "<"
+    | "op_LessThanOrEqual" -> "<="
+    | "op_GreaterThan" -> ">"
+    | "op_GreaterThanOrEqual" -> ">="
     | _ -> name
 
 let ConvertToClojure expr =
