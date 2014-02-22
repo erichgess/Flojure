@@ -27,6 +27,7 @@ let ConvertSharedFunctions name =
     | "op_LessThanOrEqual" -> "<="
     | "op_GreaterThan" -> ">"
     | "op_GreaterThanOrEqual" -> ">="
+    | "GetArray" -> "get"
     | _ -> name
     
 let ConvertToClojure expr =
