@@ -57,11 +57,11 @@ let ConvertToClojure expr =
                 "(" :: []
                 @ ConvertToClojure func
                 @ " " :: ConvertToClojure expr
-                @ ") " :: []
+                @ ")" :: []
             | Lambda(var1, e) ->
                 "( fn " :: (sprintf "[%s] " var1.Name) :: []
                 @ ConvertToClojure e
-                @ ") " :: []
+                @ ")" :: []
             | Var(v) -> v.Name :: []
             | IfThenElse(clause, thenExpr, elseExpr ) ->
                 "(if " :: []
@@ -94,6 +94,8 @@ let ConvertToClojure expr =
             | NewArray(ty, values) ->
                 "[" :: (values |> convertExpressionListToStringList )
                 @ "]" :: []
+            | Sequential(e1, e2) ->
+                "(do " :: ConvertToClojure e1 @  " " :: ConvertToClojure e2 @ ")" :: []
             | _ -> (sprintf "<<unknown: %A>>" expr) :: []
         clojure
     ConvertToClojure expr |> List.fold ( fun acc s -> acc + s ) ""      // Convert the list of Clojure tokens into a single string

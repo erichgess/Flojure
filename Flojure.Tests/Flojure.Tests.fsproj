@@ -61,6 +61,7 @@
     <Compile Include="WhileLoop.fs" />
     <None Include="App.config" />
     <None Include="packages.config" />
+    <Compile Include="Sequential.fs" />
     <Compile Include="ForIntegerRangeLoop.fs" />
   </ItemGroup>
   <ItemGroup>
