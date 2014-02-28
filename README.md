@@ -6,6 +6,8 @@ A library for translating F# into Clojure.
 ### How It Works
 Flojure operates using F# Code Quotations.  Pass the ConvertToClojure method an F# Code Quotation and the function will output the equivalent Clojure code as a string.
 
+### Isn't this absurd?
+Yes.  However, it's been a great way for me to deepen my knowledge of how F# works while learning the basics of Clojure.
 
 ### Examples
 
